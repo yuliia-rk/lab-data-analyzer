@@ -1,0 +1,69 @@
+import statistics
+
+def analyze(name):
+    try:
+        with open(name, 'r', encoding='utf-8') as file:
+            data = []
+            for line in file:
+                line = line.strip()
+                if not line:
+                    continue
+                line = line.replace(',', '.')
+                number = float(line.strip())
+                data.append(number)
+        
+        if not data:
+            print(f"Error: No numeric data found in '{name}'.")
+            return False
+            
+        average = sum(data)/len(data)
+        maximum = max(data)
+        minimum = min(data)
+        median = statistics.median(data)
+        stdev = statistics.pstdev(data)
+        
+        print(f"Data Analysis for file: '{name}'")
+        print(f"Number of readings: {len(data)}")
+        print(f"Average value: {average:.2f}")
+        print(f"Median value: {median:.2f}")
+        print(f"Standard Deviation: {stdev:.2f}")
+        print(f"Maximum value: {maximum:.2f}")
+        print(f"Minimum value: {minimum:.2f}")
+        return True
+    
+    except FileNotFoundError:
+        print(f"Error: The file '{name}' was not found.")
+        return False
+        
+    except ValueError:
+        print("Error: The file contains non-numeric data.")
+        return False
+        
+if __name__ ==  '__main__':
+    print ('Welcome to Lab Data Analyzer!')
+   
+    while True:
+        name = input('Please print your file name here: ')
+        name = name.strip('"')
+
+        if not name.endswith(".txt"):
+            name += ".txt"
+
+        success = analyze(name)
+        
+        if success: 
+            again = input("\nWould you like to analyze another file? (yes/no): ").strip().lower()
+            if again == "yes":
+                continue
+            else:
+                print("Goodbye!")
+                break
+        
+        else:
+            print("\nPlease try again...\n")
+    
+
+        
+    
+
+
